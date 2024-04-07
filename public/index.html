@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaz de API</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Interfaz de API</h1>
+        <h2>Clientes</h2>
+        <button onclick="getAllClientes()">Obtener todos los clientes</button><br>
+        <button onclick="getClienteById()">Obtener cliente por ID</button><br>
+        <button onclick="updateCliente()">Actualizar cliente</button><br>
+        <button onclick="deleteCliente()">Eliminar cliente</button><br>
+        <h2>Productos</h2>
+        <button onclick="getAllProductos()">Obtener todos los productos</button><br>
+        <button onclick="getProductoById()">Obtener producto por ID</button><br>
+        <button onclick="updateProducto()">Actualizar producto</button><br>
+        <button onclick="deleteProducto()">Eliminar producto</button><br>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function mostrarResultado(resultado) {
+            document.getElementById("resultado").innerText = JSON.stringify(resultado, null, 2);
+        }
+
+        // Funciones para manipular clientes
+
+        function getAllClientes() {
+            fetch('/clientes')
+                .then(response => response.json())
+                .then(data => mostrarResultado(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function getClienteById() {
+            const id = prompt("Ingrese el ID del cliente:");
+            fetch(`/clientes/${id}`)
+                .then(response => response.json())
+                .then(data => mostrarResultado(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function updateCliente() {
+            const id = prompt("Ingrese el ID del cliente:");
+            const nombre = prompt("Ingrese el nuevo nombre del cliente:");
+            const apellido = prompt("Ingrese el nuevo apellido del cliente:");
+            fetch(`/clientes/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nombre, apellido })
+            })
+                .then(response => response.json())
+                .then(data => mostrarResultado(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function deleteCliente() {
+            const id = prompt("Ingrese el ID del cliente a eliminar:");
+            fetch(`/clientes/${id}`, {
+                method: 'DELETE'
+            })
+                .then(response => response.json())
+                .then(data => mostrarResultado(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Funciones para manipular productos
+
+        function getAllProductos() {
+            fetch('/productos')
+                .then(response => response.json())
+                .then(data => mostrarResultado(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function getProductoById() {
+            const id = prompt("Ingrese el ID del producto:");
+            fetch(`/productos/${id}`)
+                .then(response => response.json())
+                .then(data => mostrarResultado(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function updateProducto() {
+            const id = prompt("Ingrese el ID del producto:");
+            const nombre = prompt("Ingrese el nuevo nombre del producto:");
+            const precio = prompt("Ingrese el nuevo precio del producto:");
+            fetch(`/productos/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nombre, precio })
+            })
+                .then(response => response.json())
+                .then(data => mostrarResultado(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function deleteProducto() {
+            const id = prompt("Ingrese el ID del producto a eliminar:");
+            fetch(`/productos/${id}`, {
+                method: 'DELETE'
+            })
+                .then(response => response.json())
+                .then(data => mostrarResultado(data))
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+
+</html>
